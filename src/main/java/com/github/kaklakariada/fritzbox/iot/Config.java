@@ -83,7 +83,7 @@ public class Config {
 	}
 
 	private Path getPrivateKeyFile() {
-		return getPathProperty("aws.iot.privateKey_file");
+		return getPathProperty("aws.iot.private_key_file");
 	}
 
 	public KeyStorePasswordPair getKeyStorePasswordPair() {
