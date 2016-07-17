@@ -1,0 +1,18 @@
+<configuration debug="false" scan="60 second">
+  <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+    <resetJUL>true</resetJUL>
+  </contextListener>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="com.github.kaklakariada.fritzbox.iot" level="DEBUG" />
+  <logger name="com.amazonaws.services.iot" level="DEBUG" />
+  
+  <root level="INFO">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>
