@@ -1,0 +1,8 @@
+File fritzboxApiProjectDir = new File(settingsDir, '../fritzbox-java-api')
+
+if(fritzboxApiProjectDir.exists())
+{
+    logger.info "Found api project at $fritzboxApiProjectDir"
+    include ':fritzbox-java-api'
+    project(':fritzbox-java-api').projectDir = fritzboxApiProjectDir
+}
