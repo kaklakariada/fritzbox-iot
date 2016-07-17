@@ -43,6 +43,14 @@ public class FritzBoxIoTConnector {
 		return new FritzBoxIoTConnector(config, client, device);
 	}
 
+	public void delete() {
+		try {
+			device.delete();
+		} catch (final AWSIotException e) {
+			throw new RuntimeException("Error deleting thing shadow", e);
+		}
+	}
+
 	public void connect() {
 		device.setReportInterval(config.getReportInterval().toMillis());
 		connectIoT();

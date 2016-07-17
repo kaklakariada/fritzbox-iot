@@ -11,5 +11,4 @@ public class Main {
 		final FritzBoxIoTConnector connector = FritzBoxIoTConnector.create();
 		connector.connect();
 	}
-
 }
