@@ -1,3 +1,5 @@
+rootProject.name='fritzbox-iot'
+
 File fritzboxApiProjectDir = new File(settingsDir, '../fritzbox-java-api')
 
 if(fritzboxApiProjectDir.exists())
