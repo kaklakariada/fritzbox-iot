@@ -35,7 +35,7 @@ public class Config {
 
 	private static Properties readConfigFile(String fileName) {
 		final Path path = Paths.get(fileName).toAbsolutePath();
-		LOG.info("Reading test config from {}", path);
+		LOG.info("Reading config from {}", path);
 		final Properties config = new Properties();
 		try (InputStream stream = Files.newInputStream(path)) {
 			config.load(stream);
@@ -55,6 +55,22 @@ public class Config {
 
 	public String getThingName() {
 		return getProperty("aws.iot.thing_name");
+	}
+
+	public String getFritzBoxUrl() {
+		return getProperty("fritzbox.url");
+	}
+
+	public String getFritzBoxUsername() {
+		return getProperty("fritzbox.username");
+	}
+
+	public String getFritzBoxPassword() {
+		return getProperty("fritzbox.password");
+	}
+
+	public String getFritzDectAin() {
+		return getProperty("fritzbox.fritzdect.ain");
 	}
 
 	private Path getCertificateFile() {
