@@ -11,6 +11,7 @@ import com.amazonaws.services.iot.client.AWSIotDevice;
 import com.amazonaws.services.iot.client.AWSIotDeviceProperty;
 import com.github.kaklakariada.fritzbox.HomeAutomation;
 import com.github.kaklakariada.fritzbox.model.homeautomation.Device;
+import com.github.kaklakariada.fritzbox.model.homeautomation.DeviceList;
 import com.github.kaklakariada.fritzbox.model.homeautomation.SwitchState.SwitchMode;
 
 public class FritzDectDevice extends AWSIotDevice {
@@ -120,9 +121,11 @@ public class FritzDectDevice extends AWSIotDevice {
 	}
 
 	private void update() {
-		final Device deviceInfo = fritzDect.getDeviceListInfos().getDeviceByIdentifier(deviceAin);
+		final DeviceList deviceList = fritzDect.getDeviceListInfos();
+		final Device deviceInfo = deviceList.getDeviceByIdentifier(deviceAin);
 		if (deviceInfo == null) {
-			LOG.debug("Device {} not found, present = false", deviceAin);
+			LOG.debug("Device {} not found. Set present = false. Available device ids: {}", deviceAin,
+					deviceList.getDeviceIdentifiers());
 			this.present = false;
 			return;
 		}
