@@ -54,14 +54,6 @@ public class FritzBoxIoTConnector {
 	public void connect() {
 		device.setReportInterval(config.getReportInterval().toMillis());
 		connectIoT();
-		// try {
-		// LOG.debug("Delete current state of device '{}'...",
-		// device.getThingName());
-		// device.delete();
-		// LOG.debug("State deleted");
-		// } catch (final AWSIotException e) {
-		// throw new RuntimeException("Error deleting state", e);
-		// }
 	}
 
 	private void connectIoT() {

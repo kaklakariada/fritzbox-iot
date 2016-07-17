@@ -19,7 +19,11 @@ public class FritzDectDevice extends AWSIotDevice {
 	private final String deviceAin;
 	private final HomeAutomation fritzDect;
 
-	@AWSIotDeviceProperty
+	private final Duration updateDelay;
+	private final Clock clock;
+	private Instant lastUpdate;
+
+	@AWSIotDeviceProperty(allowUpdate = true)
 	private boolean powerState;
 	@AWSIotDeviceProperty(allowUpdate = false)
 	private boolean present;
@@ -37,12 +41,6 @@ public class FritzDectDevice extends AWSIotDevice {
 	private SwitchMode mode;
 	@AWSIotDeviceProperty(allowUpdate = false)
 	private String firmwareVersion;
-
-	private final Clock clock;
-
-	private Instant lastUpdate;
-
-	private final Duration updateDelay;
 
 	public FritzDectDevice(HomeAutomation fritzDect, String thingName, String deviceAin, Duration updateDelay) {
 		this(fritzDect, thingName, deviceAin, updateDelay, Clock.systemUTC());
