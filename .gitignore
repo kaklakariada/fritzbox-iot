@@ -1,6 +1,7 @@
 /.gradle/
-
 .project
-
 .classpath
 /bin/
+/config/config.properties
+/config/*.pem.crt
+/config/*.pem.key
