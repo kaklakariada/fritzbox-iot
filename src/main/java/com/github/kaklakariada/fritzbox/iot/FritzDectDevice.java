@@ -12,6 +12,7 @@ import com.amazonaws.services.iot.client.AWSIotDeviceProperty;
 import com.github.kaklakariada.fritzbox.HomeAutomation;
 import com.github.kaklakariada.fritzbox.model.homeautomation.Device;
 import com.github.kaklakariada.fritzbox.model.homeautomation.DeviceList;
+import com.github.kaklakariada.fritzbox.model.homeautomation.SwitchState;
 import com.github.kaklakariada.fritzbox.model.homeautomation.SwitchState.SwitchMode;
 
 public class FritzDectDevice extends AWSIotDevice {
@@ -61,7 +62,16 @@ public class FritzDectDevice extends AWSIotDevice {
 
 	public void setPowerState(boolean desiredPowerState) {
 		LOG.debug("Set power state to {}", desiredPowerState);
-		fritzDect.switchPowerState(deviceAin, desiredPowerState);
+		switchPowerState(desiredPowerState);
+	}
+
+	private void switchPowerState(boolean desiredPowerState) {
+		try {
+			fritzDect.switchPowerState(deviceAin, desiredPowerState);
+		} catch (final RuntimeException e) {
+			LOG.error("Error switching power state to " + desiredPowerState, e);
+			throw e;
+		}
 	}
 
 	public boolean getPresent() {
@@ -121,7 +131,7 @@ public class FritzDectDevice extends AWSIotDevice {
 	}
 
 	private void update() {
-		final DeviceList deviceList = fritzDect.getDeviceListInfos();
+		final DeviceList deviceList = getDeviceList();
 		final Device deviceInfo = deviceList.getDeviceByIdentifier(deviceAin);
 		if (deviceInfo == null) {
 			LOG.debug("Device {} not found. Set present = false. Available device ids: {}", deviceAin,
@@ -131,12 +141,18 @@ public class FritzDectDevice extends AWSIotDevice {
 		}
 		this.present = true;
 		this.name = deviceInfo.getName();
-		this.powerState = deviceInfo.getSwitchState().isOn();
-		this.locked = deviceInfo.getSwitchState().isLocked();
-		this.mode = deviceInfo.getSwitchState().getMode();
 		this.firmwareVersion = deviceInfo.getFirmwareVersion();
 		this.energyWattHour = deviceInfo.getPowerMeter().getEnergyWattHours();
 		this.powerWatt = deviceInfo.getPowerMeter().getPowerWatt();
 		this.temperature = deviceInfo.getTemperature().getCelsius();
+	}
+
+	private DeviceList getDeviceList() {
+		try {
+			return fritzDect.getDeviceListInfos();
+		} catch (final Exception e) {
+			LOG.error("Error getting device list", e);
+			throw new RuntimeException("Error getting device list", e);
+		}
 	}
 }
