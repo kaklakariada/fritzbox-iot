@@ -1,5 +1,7 @@
 package com.github.kaklakariada.fritzbox.iot;
 
+import java.time.Duration;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +37,9 @@ public class FritzBoxIoTConnector {
 				pair.keyStore, pair.keyPassword);
 
 		final HomeAutomation fritzDect = createFritzBoxConnection(config);
-		final FritzDectDevice device = new FritzDectDevice(fritzDect, config.getThingName(), config.getFritzDectAin());
+		final Duration updateDelay = config.getReportInterval().minusMillis(100);
+		final FritzDectDevice device = new FritzDectDevice(fritzDect, config.getThingName(), config.getFritzDectAin(),
+				updateDelay);
 
 		return new FritzBoxIoTConnector(config, client, device);
 	}
@@ -44,20 +48,20 @@ public class FritzBoxIoTConnector {
 		final HttpTemplate template = new HttpTemplate(config.getFritzBoxUrl());
 		final FritzBoxSession session = new FritzBoxSession(template);
 		session.login(config.getFritzBoxUsername(), config.getFritzBoxPassword());
-		final HomeAutomation homeAutomation = new HomeAutomation(session);
-		return homeAutomation;
+		return new HomeAutomation(session);
 	}
 
 	public void connect() {
-		device.setReportInterval(5000);
+		device.setReportInterval(config.getReportInterval().toMillis());
 		connectIoT();
-		try {
-			LOG.debug("Delete current state of device '{}'...", device.getThingName());
-			device.delete();
-			LOG.debug("State deleted");
-		} catch (final AWSIotException e) {
-			throw new RuntimeException("Error deleting state", e);
-		}
+		// try {
+		// LOG.debug("Delete current state of device '{}'...",
+		// device.getThingName());
+		// device.delete();
+		// LOG.debug("State deleted");
+		// } catch (final AWSIotException e) {
+		// throw new RuntimeException("Error deleting state", e);
+		// }
 	}
 
 	private void connectIoT() {

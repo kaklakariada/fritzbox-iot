@@ -9,7 +9,7 @@
     </encoder>
   </appender>
 
-  <logger name="com.github.kaklakariada.fritzbox.iot" level="DEBUG" />
+  <logger name="com.github.kaklakariada.fritzbox.iot" level="TRACE" />
   <logger name="com.amazonaws.services.iot" level="DEBUG" />
   
   <root level="INFO">

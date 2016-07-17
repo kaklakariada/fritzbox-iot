@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -57,6 +58,10 @@ public class Config {
 		return getProperty("aws.iot.thing_name");
 	}
 
+	public Duration getReportInterval() {
+		return Duration.ofMillis(getLongProperty("aws.iot.report_interval_millis"));
+	}
+
 	public String getFritzBoxUrl() {
 		return getProperty("fritzbox.url");
 	}
@@ -99,6 +104,10 @@ public class Config {
 			throw new RuntimeException("Error reading file " + path);
 		}
 		return path;
+	}
+
+	private long getLongProperty(String propertyKey) {
+		return Long.parseLong(getProperty(propertyKey));
 	}
 
 }
