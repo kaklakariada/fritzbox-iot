@@ -107,7 +107,7 @@ public class FritzDectDevice extends AWSIotDevice {
 	private void updateIfNecessary() {
 		final Instant now = clock.instant();
 		if (lastUpdate == null) {
-			LOG.trace("Initial update");
+			LOG.trace("Request initial update");
 			update();
 			lastUpdate = now;
 			return;
