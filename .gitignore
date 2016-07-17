@@ -5,3 +5,4 @@
 /config/config.properties
 /config/*.pem.crt
 /config/*.pem.key
+.settings/org.eclipse.buildship.core.prefs
