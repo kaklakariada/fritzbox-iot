@@ -139,7 +139,18 @@ public class FritzDectDevice extends AWSIotDevice {
 			this.present = false;
 			return;
 		}
-		this.present = true;
+		final SwitchState switchState = deviceInfo.getSwitchState();
+		if (switchState != null) {
+			this.present = true;
+			this.powerState = switchState.isOn();
+			this.locked = switchState.isLocked();
+			this.mode = switchState.getMode();
+		} else {
+			this.present = false;
+			this.powerState = false;
+			this.locked = false;
+			this.mode = null;
+		}
 		this.name = deviceInfo.getName();
 		this.firmwareVersion = deviceInfo.getFirmwareVersion();
 		this.energyWattHour = deviceInfo.getPowerMeter().getEnergyWattHours();
