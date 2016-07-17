@@ -59,9 +59,9 @@ public class FritzDectDevice extends AWSIotDevice {
 		return powerState;
 	}
 
-	public void setPowerState(boolean powerState) {
-		LOG.debug("Set power state to {}", powerState);
-		fritzDect.switchPowerState(deviceAin, this.powerState);
+	public void setPowerState(boolean desiredPowerState) {
+		LOG.debug("Set power state to {}", desiredPowerState);
+		fritzDect.switchPowerState(deviceAin, desiredPowerState);
 	}
 
 	public boolean getPresent() {

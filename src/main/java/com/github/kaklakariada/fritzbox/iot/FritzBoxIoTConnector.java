@@ -7,9 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.amazonaws.services.iot.client.AWSIotException;
 import com.amazonaws.services.iot.client.AWSIotMqttClient;
-import com.github.kaklakariada.fritzbox.FritzBoxSession;
 import com.github.kaklakariada.fritzbox.HomeAutomation;
-import com.github.kaklakariada.fritzbox.http.HttpTemplate;
 import com.github.kaklakariada.fritzbox.iot.util.KeyStorePasswordPair;
 
 public class FritzBoxIoTConnector {
@@ -36,19 +34,13 @@ public class FritzBoxIoTConnector {
 		final AWSIotMqttClient client = new AWSIotMqttClient(config.getClientEndpoint(), config.getClientId(),
 				pair.keyStore, pair.keyPassword);
 
-		final HomeAutomation fritzDect = createFritzBoxConnection(config);
+		final HomeAutomation fritzDect = HomeAutomation.connect(config.getFritzBoxUrl(), config.getFritzBoxUsername(),
+				config.getFritzBoxPassword());
 		final Duration updateDelay = config.getReportInterval().minusMillis(100);
 		final FritzDectDevice device = new FritzDectDevice(fritzDect, config.getThingName(), config.getFritzDectAin(),
 				updateDelay);
 
 		return new FritzBoxIoTConnector(config, client, device);
-	}
-
-	private static HomeAutomation createFritzBoxConnection(Config config) {
-		final HttpTemplate template = new HttpTemplate(config.getFritzBoxUrl());
-		final FritzBoxSession session = new FritzBoxSession(template);
-		session.login(config.getFritzBoxUsername(), config.getFritzBoxPassword());
-		return new HomeAutomation(session);
 	}
 
 	public void connect() {
