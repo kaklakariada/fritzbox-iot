@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.kaklakariada.fritzbox.iot.util.KeyStorePasswordPair;
-import com.github.kaklakariada.fritzbox.iot.util.Util;
+import com.github.kaklakariada.fritzbox.iot.util.KeyStoreUtil;
 
 public class Config {
 	private static final String CONFIG_FILE = "config/config.properties";
@@ -87,7 +87,7 @@ public class Config {
 	}
 
 	public KeyStorePasswordPair getKeyStorePasswordPair() {
-		return Util.getKeyStorePasswordPair(getCertificateFile(), getPrivateKeyFile());
+		return KeyStoreUtil.getKeyStorePasswordPair(getCertificateFile(), getPrivateKeyFile());
 	}
 
 	private String getProperty(String propertyKey) {

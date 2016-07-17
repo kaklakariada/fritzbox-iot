@@ -20,7 +20,7 @@ import java.security.cert.CertificateFactory;
  * This is a helper class to facilitate reading of the configurations and
  * certificate from the resource files.
  */
-public class Util {
+public class KeyStoreUtil {
 
 	public static KeyStorePasswordPair getKeyStorePasswordPair(Path certificateFile, Path privateKeyFile) {
 		return getKeyStorePasswordPair(certificateFile, privateKeyFile, null);
